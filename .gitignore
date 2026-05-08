@@ -14,3 +14,15 @@ android/key.properties
 .idea/
 .vscode/
 .DS_Store
+
+android/key.jks
+android/key.properties
+build/
+.dart_tool/
+pubspec.lock
+ios/
+linux/
+macos/
+windows/
+web/
+*.iml
