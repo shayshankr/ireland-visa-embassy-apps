@@ -5,12 +5,14 @@ class EmbassyConfig {
   final String name;
   final String subtitle;
   final Color primaryColor;
+  final String url;
 
   const EmbassyConfig({
     required this.key,
     required this.name,
     required this.subtitle,
     required this.primaryColor,
+    required this.url,
   });
 
   static const newdelhi = EmbassyConfig(
@@ -18,6 +20,7 @@ class EmbassyConfig {
     name: 'New Delhi',
     subtitle: 'Ireland Embassy - India',
     primaryColor: Color(0xFF169B62),
+    url: 'https://www.ireland.ie/en/india/newdelhi/services/visas/visa-decisions/',
   );
 
   static const beijing = EmbassyConfig(
@@ -25,6 +28,7 @@ class EmbassyConfig {
     name: 'Beijing',
     subtitle: 'Ireland Embassy - China',
     primaryColor: Color(0xFFB22222),
+    url: 'https://www.ireland.ie/en/china/beijing/services/visas/visa-decisions/',
   );
 
   static const abuja = EmbassyConfig(
@@ -32,6 +36,7 @@ class EmbassyConfig {
     name: 'Abuja',
     subtitle: 'Ireland Embassy - Nigeria',
     primaryColor: Color(0xFF008751),
+    url: 'https://www.ireland.ie/en/nigeria/abuja/services/visas/visa-decisions/',
   );
 
   static const abudhabi = EmbassyConfig(
@@ -39,6 +44,7 @@ class EmbassyConfig {
     name: 'Abu Dhabi',
     subtitle: 'Ireland Embassy - UAE',
     primaryColor: Color(0xFF007A3D),
+    url: 'https://www.ireland.ie/en/uae/abudhabi/services/visas/visa-decisions/',
   );
 
   static const ankara = EmbassyConfig(
@@ -46,6 +52,7 @@ class EmbassyConfig {
     name: 'Ankara',
     subtitle: 'Ireland Embassy - Turkiye',
     primaryColor: Color(0xFFE30A17),
+    url: 'https://www.ireland.ie/en/turkey/ankara/services/visas/visa-decisions/',
   );
 
   // Set once at startup by each flavor's main_xxx.dart
