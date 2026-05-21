@@ -21,8 +21,11 @@ class ApiService {
       if (embassy != null) {
         return EmbassyStats(
           recordCount: embassy['record_count'] as int,
+          approved: embassy['approved'] as int? ?? 0,
+          refused: embassy['refused'] as int? ?? 0,
           available: embassy['available'] as bool,
           cadence: embassy['cadence'] as String,
+          lastRefreshed: embassy['last_refreshed'] as String? ?? '',
         );
       }
     }

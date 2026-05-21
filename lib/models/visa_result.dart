@@ -41,12 +41,21 @@ class NearestResult {
 
 class EmbassyStats {
   final int recordCount;
+  final int approved;
+  final int refused;
   final bool available;
   final String cadence;
+  final String lastRefreshed;
 
   const EmbassyStats({
     required this.recordCount,
+    required this.approved,
+    required this.refused,
     required this.available,
     required this.cadence,
+    this.lastRefreshed = '',
   });
+
+  double get approvalRate =>
+      recordCount > 0 ? (approved / recordCount * 100) : 0.0;
 }
