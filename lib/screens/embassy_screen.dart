@@ -5,6 +5,7 @@ import '../providers/embassy_provider.dart';
 import '../widgets/stats_card.dart';
 import '../widgets/check_card.dart';
 import '../widgets/result_card.dart';
+import '../widgets/irish_background.dart';
 
 class EmbassyScreen extends StatefulWidget {
   const EmbassyScreen({super.key});
@@ -52,30 +53,33 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
           ],
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () => context.read<EmbassyProvider>().loadStats(),
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              StatsCard(color: config.primaryColor),
-              const SizedBox(height: 16),
-              CheckCard(
-                formKey: _formKey,
-                controller: _controller,
-                onSubmit: _submit,
-              ),
-              const SizedBox(height: 16),
-              const ResultCard(),
-              const SizedBox(height: 24),
-              Text(
-                'Data sourced from ireland.ie',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
-              ),
-            ],
+      body: IrishBackground(
+        color: config.primaryColor,
+        child: RefreshIndicator(
+          onRefresh: () => context.read<EmbassyProvider>().loadStats(),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                StatsCard(color: config.primaryColor),
+                const SizedBox(height: 16),
+                CheckCard(
+                  formKey: _formKey,
+                  controller: _controller,
+                  onSubmit: _submit,
+                ),
+                const SizedBox(height: 16),
+                const ResultCard(),
+                const SizedBox(height: 24),
+                Text(
+                  'Data sourced from ireland.ie',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                ),
+              ],
+            ),
           ),
         ),
       ),
