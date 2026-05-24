@@ -36,7 +36,7 @@ class EmbassyConfig {
     name: 'Abuja',
     subtitle: 'Ireland Embassy - Nigeria',
     primaryColor: Color(0xFF008751),
-    url: 'https://www.ireland.ie/en/nigeria/abuja/services/visas/visa-decisions/',
+    url: 'https://www.ireland.ie/en/nigeria/abuja/services/visas/weekly-decision-reports/',
   );
 
   static const abudhabi = EmbassyConfig(
@@ -44,7 +44,7 @@ class EmbassyConfig {
     name: 'Abu Dhabi',
     subtitle: 'Ireland Embassy - UAE',
     primaryColor: Color(0xFF007A3D),
-    url: 'https://www.ireland.ie/en/uae/abudhabi/services/visas/visa-decisions/',
+    url: 'https://www.ireland.ie/en/uae/abudhabi/services/visas/weekly-decision-reports/',
   );
 
   static const ankara = EmbassyConfig(
@@ -52,7 +52,7 @@ class EmbassyConfig {
     name: 'Ankara',
     subtitle: 'Ireland Embassy - Turkiye',
     primaryColor: Color(0xFFE30A17),
-    url: 'https://www.ireland.ie/en/turkey/ankara/services/visas/visa-decisions/',
+    url: 'https://www.ireland.ie/en/turkiye/ankara/services/visas/weekly-decision-report/',
   );
 
   // Set once at startup by each flavor's main_xxx.dart
