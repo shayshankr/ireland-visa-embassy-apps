@@ -20,7 +20,7 @@ class EmbassyConfig {
     name: 'New Delhi',
     subtitle: 'Ireland Embassy - India',
     primaryColor: Color(0xFF169B62),
-    url: 'https://www.ireland.ie/en/india/newdelhi/services/visas/visa-decisions/',
+    url: 'https://www.ireland.ie/en/india/newdelhi/services/visas/processing-times-and-decisions/',
   );
 
   static const beijing = EmbassyConfig(
