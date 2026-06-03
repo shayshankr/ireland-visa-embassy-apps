@@ -21,9 +21,9 @@ class StatsCard extends StatelessWidget {
         if (provider.statsState == LoadState.error || provider.stats == null) {
           return Card(
             color: Colors.red.shade50,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(children: const [
+            child: const Padding(
+              padding: EdgeInsets.all(16),
+              child: Row(children: [
                 Icon(Icons.error_outline, color: Colors.red),
                 SizedBox(width: 8),
                 Text('Could not load embassy data'),

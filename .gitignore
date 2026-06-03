@@ -17,6 +17,7 @@ android/key.properties
 
 android/key.jks
 android/key.properties
+play-credentials.json
 build/
 .dart_tool/
 pubspec.lock

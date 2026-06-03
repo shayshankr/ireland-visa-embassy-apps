@@ -1,30 +1,52 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
+import 'package:ireland_visa_embassy/config/embassy_config.dart';
+import 'package:ireland_visa_embassy/providers/embassy_provider.dart';
+import 'package:ireland_visa_embassy/screens/embassy_screen.dart';
 
-import 'package:ireland_visa_embassy/main.dart';
+Widget _buildApp(EmbassyConfig config) {
+  EmbassyConfig.setConfig(config);
+  return ChangeNotifierProvider(
+    create: (_) => EmbassyProvider(),
+    child: MaterialApp(
+      home: const EmbassyScreen(),
+    ),
+  );
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  final flavors = [
+    EmbassyConfig.newdelhi,
+    EmbassyConfig.beijing,
+    EmbassyConfig.abuja,
+    EmbassyConfig.abudhabi,
+    EmbassyConfig.ankara,
+  ];
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  for (final flavor in flavors) {
+    testWidgets('${flavor.name}: screen renders key elements', (tester) async {
+      await tester.pumpWidget(_buildApp(flavor));
+      await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      // AppBar title
+      expect(find.text('Ireland Visa Checker'), findsOneWidget);
+      // Subtitle shows in AppBar
+      expect(find.text(flavor.subtitle), findsOneWidget);
+      // Check card heading
+      expect(find.text('Check your visa decision'), findsOneWidget);
+      // How-to tile
+      expect(find.text('How to use this tool'), findsOneWidget);
+      // Error fallback tile
+      expect(find.text('If any error click on me'), findsOneWidget);
+    });
+  }
+
+  testWidgets('App icon asset path is unique per flavor', (tester) async {
+    final assets = flavors.map((f) => f.iconAsset).toSet();
+    expect(assets.length, flavors.length,
+        reason: 'Each flavor must have a distinct icon asset');
   });
 }

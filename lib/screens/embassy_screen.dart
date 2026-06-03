@@ -57,6 +57,10 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Image.asset(config.iconAsset),
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -93,15 +97,16 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
                   title: 'How to use this tool',
                   icon: Icons.help_outline,
                   color: primaryColor,
-                  children: const [
-                    _BulletItem(text: 'Enter your 8-digit application number e.g. 83276171 or with prefix IRL83276171'),
-                    _BulletItem(text: 'Get instant status check.'),
-                    _BulletItem(text: 'See nearest processed numbers if yours is not found.'),
-                    _BulletItem(text: 'Please share with your family and friends this application.'),
-                    _BulletItem(text: 'More than 4130+ people have used this application as of April 2026. Last week usage 200 people.'),
-                    _BulletItem(text: 'Contact the developer if any issues while using this application.'),
-                    SizedBox(height: 8),
-                    _HashtagRow(),
+                  children: [
+                    _AppIconStep(iconAsset: config.iconAsset),
+                    const _BulletItem(text: 'Enter your 8-digit application number e.g. 83276171 or with prefix IRL83276171'),
+                    const _BulletItem(text: 'Get instant status check.'),
+                    const _BulletItem(text: 'See nearest processed numbers if yours is not found.'),
+                    const _BulletItem(text: 'Please share with your family and friends this application.'),
+                    const _BulletItem(text: 'More than 4130+ people have used this application as of April 2026. Last week usage 200 people.'),
+                    const _BulletItem(text: 'Contact the developer if any issues while using this application.'),
+                    const SizedBox(height: 8),
+                    const _HashtagRow(),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -182,6 +187,35 @@ class _InfoExpansionTile extends StatelessWidget {
           childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           children: children,
         ),
+      ),
+    );
+  }
+}
+
+// ── App icon step ────────────────────────────────────────────────────────────
+
+class _AppIconStep extends StatelessWidget {
+  final String iconAsset;
+  const _AppIconStep({required this.iconAsset});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(14),
+            child: Image.asset(iconAsset, width: 56, height: 56),
+          ),
+          const SizedBox(width: 12),
+          const Expanded(
+            child: Text(
+              'Find this app on your phone using the icon shown here, then tap it to open.',
+              style: TextStyle(fontSize: 13),
+            ),
+          ),
+        ],
       ),
     );
   }

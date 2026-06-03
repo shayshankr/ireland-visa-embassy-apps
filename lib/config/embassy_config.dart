@@ -6,6 +6,7 @@ class EmbassyConfig {
   final String subtitle;
   final Color primaryColor;
   final String url;
+  final String iconAsset;
 
   const EmbassyConfig({
     required this.key,
@@ -13,6 +14,7 @@ class EmbassyConfig {
     required this.subtitle,
     required this.primaryColor,
     required this.url,
+    required this.iconAsset,
   });
 
   static const newdelhi = EmbassyConfig(
@@ -21,6 +23,7 @@ class EmbassyConfig {
     subtitle: 'Ireland Embassy - India',
     primaryColor: Color(0xFF169B62),
     url: 'https://www.ireland.ie/en/india/newdelhi/services/visas/processing-times-and-decisions/',
+    iconAsset: 'assets/icons/newdelhi.png',
   );
 
   static const beijing = EmbassyConfig(
@@ -29,6 +32,7 @@ class EmbassyConfig {
     subtitle: 'Ireland Embassy - China',
     primaryColor: Color(0xFFB22222),
     url: 'https://www.ireland.ie/en/china/beijing/services/visas/visa-decisions/',
+    iconAsset: 'assets/icons/beijing.png',
   );
 
   static const abuja = EmbassyConfig(
@@ -37,6 +41,7 @@ class EmbassyConfig {
     subtitle: 'Ireland Embassy - Nigeria',
     primaryColor: Color(0xFF008751),
     url: 'https://www.ireland.ie/en/nigeria/abuja/services/visas/weekly-decision-reports/',
+    iconAsset: 'assets/icons/abuja.png',
   );
 
   static const abudhabi = EmbassyConfig(
@@ -45,6 +50,7 @@ class EmbassyConfig {
     subtitle: 'Ireland Embassy - UAE',
     primaryColor: Color(0xFF007A3D),
     url: 'https://www.ireland.ie/en/uae/abudhabi/services/visas/weekly-decision-reports/',
+    iconAsset: 'assets/icons/abudhabi.png',
   );
 
   static const ankara = EmbassyConfig(
@@ -53,6 +59,7 @@ class EmbassyConfig {
     subtitle: 'Ireland Embassy - Turkiye',
     primaryColor: Color(0xFFE30A17),
     url: 'https://www.ireland.ie/en/turkiye/ankara/services/visas/weekly-decision-report/',
+    iconAsset: 'assets/icons/ankara.png',
   );
 
   // Set once at startup by each flavor's main_xxx.dart

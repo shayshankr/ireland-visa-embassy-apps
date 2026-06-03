@@ -20,3 +20,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/icons/newdelhi.png
+    - assets/icons/beijing.png
+    - assets/icons/abuja.png
+    - assets/icons/abudhabi.png
+    - assets/icons/ankara.png
