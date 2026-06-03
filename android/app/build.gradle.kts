@@ -89,7 +89,6 @@ play {
     serviceAccountCredentials.set(file("../../play-credentials.json"))
     track.set("production")
     defaultToAppBundles.set(true)
-    // Set to IN_PROGRESS to do a staged rollout, or COMPLETED for full rollout
     releaseStatus.set(com.github.triplet.gradle.androidpublisher.ReleaseStatus.COMPLETED)
     userFraction.set(1.0)
 }
