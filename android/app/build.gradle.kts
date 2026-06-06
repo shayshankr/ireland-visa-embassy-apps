@@ -96,8 +96,7 @@ dependencies {
 
 play {
     serviceAccountCredentials.set(file("../../play-credentials.json"))
-    track.set("production")
+    track.set("internal")
     defaultToAppBundles.set(true)
     releaseStatus.set(com.github.triplet.gradle.androidpublisher.ReleaseStatus.COMPLETED)
-    userFraction.set(1.0)
 }

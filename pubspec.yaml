@@ -1,7 +1,7 @@
 name: ireland_visa_embassy
 description: Ireland Visa Decision Checker — individual embassy app.
 publish_to: 'none'
-version: 1.0.3+35
+version: 1.0.3+36
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -17,6 +17,7 @@ dependencies:
   shared_preferences: ^2.3.3
   share_plus: ^10.0.0
   in_app_review: ^2.0.9
+  package_info_plus: ^8.0.0
 
 dev_dependencies:
   flutter_test:
