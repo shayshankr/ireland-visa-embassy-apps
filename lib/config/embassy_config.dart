@@ -68,4 +68,9 @@ class EmbassyConfig {
   static void setConfig(EmbassyConfig config) {
     _current = config;
   }
+
+  static EmbassyConfig fromKey(String key) {
+    return [newdelhi, beijing, abuja, abudhabi, ankara]
+        .firstWhere((c) => c.key == key, orElse: () => newdelhi);
+  }
 }

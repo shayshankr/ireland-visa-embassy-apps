@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/embassy_provider.dart';
 
 class CheckCard extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -64,6 +66,46 @@ class CheckCard extends StatelessWidget {
                 onPressed: onSubmit,
                 icon: const Icon(Icons.search),
                 label: const Text('Check Status'),
+              ),
+              // ── Recent searches ───────────────────────────────────────────
+              Consumer<EmbassyProvider>(
+                builder: (context, provider, _) {
+                  if (provider.history.isEmpty) return const SizedBox.shrink();
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Recent searches',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 4,
+                          children: provider.history
+                              .map(
+                                (number) => ActionChip(
+                                  label: Text(
+                                    number,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                  onPressed: () {
+                                    controller.text = number;
+                                    onSubmit();
+                                  },
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           ),

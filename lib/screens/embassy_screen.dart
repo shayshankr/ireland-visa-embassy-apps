@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../config/embassy_config.dart';
@@ -7,6 +9,7 @@ import '../widgets/stats_card.dart';
 import '../widgets/check_card.dart';
 import '../widgets/result_card.dart';
 import '../widgets/irish_background.dart';
+import '../widgets/watch_banner.dart';
 
 class EmbassyScreen extends StatefulWidget {
   const EmbassyScreen({super.key});
@@ -23,7 +26,10 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<EmbassyProvider>().loadStats();
+      final p = context.read<EmbassyProvider>();
+      p.loadStats();
+      p.loadWatchState();
+      p.loadHistory();
     });
   }
 
@@ -33,10 +39,31 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     FocusScope.of(context).unfocus();
-    context.read<EmbassyProvider>().checkApplication(_controller.text.trim());
+    await context.read<EmbassyProvider>().checkApplication(_controller.text.trim());
+    if (!mounted) return;
+    final result = context.read<EmbassyProvider>().checkResult;
+    if (result == null) return;
+    if (result.found) {
+      if (result.isApproved) {
+        HapticFeedback.heavyImpact();
+        Future.delayed(const Duration(seconds: 3), _maybeRequestReview);
+      } else {
+        HapticFeedback.vibrate();
+      }
+    } else {
+      HapticFeedback.lightImpact();
+    }
+  }
+
+  Future<void> _maybeRequestReview() async {
+    if (!mounted) return;
+    final inAppReview = InAppReview.instance;
+    if (await inAppReview.isAvailable()) {
+      await inAppReview.requestReview();
+    }
   }
 
   Future<void> _launchUrl(String url) async {
@@ -81,6 +108,7 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const WatchBanner(),
                 StatsCard(color: primaryColor),
                 const SizedBox(height: 16),
                 CheckCard(
@@ -94,33 +122,51 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
 
                 // ── How to use ───────────────────────────────────────────────
                 _InfoExpansionTile(
-                  title: 'How to use this tool',
+                  title: 'How to use this app',
                   icon: Icons.help_outline,
                   color: primaryColor,
                   children: [
                     _AppIconStep(iconAsset: config.iconAsset),
-                    const _BulletItem(text: 'Enter your 8-digit application number e.g. 83276171 or with prefix IRL83276171'),
+                    const _BulletItem(
+                        text: 'Enter your 8-digit application number e.g. 83276171 or with prefix IRL83276171'),
                     const _BulletItem(text: 'Get instant status check.'),
-                    const _BulletItem(text: 'See nearest processed numbers if yours is not found.'),
-                    const _BulletItem(text: 'Please share with your family and friends this application.'),
-                    const _BulletItem(text: 'More than 4130+ people have used this application as of April 2026. Last week usage 200 people.'),
-                    const _BulletItem(text: 'Contact the developer if any issues while using this application.'),
+                    const _BulletItem(
+                        text: 'See nearest processed numbers if yours is not found.'),
+                    const _BulletItem(
+                        text: 'Tap "Notify me when found" to get a notification the moment your decision appears.'),
+                    const _BulletItem(
+                        text: 'Share this app with your family and friends.'),
+                    const _BulletItem(
+                        text: 'Thousands of visa applicants use this app every week.'),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: OutlinedButton.icon(
+                        onPressed: () => _launchUrl(
+                            'mailto:shayshankr@gmail.com?subject=Ireland Visa App - Feedback'),
+                        icon: const Icon(Icons.email_outlined),
+                        label: const Text('Contact Developer'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: primaryColor,
+                          side: BorderSide(color: primaryColor),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     const _HashtagRow(),
                   ],
                 ),
                 const SizedBox(height: 10),
 
-                // ── Error fallback ───────────────────────────────────────────
+                // ── Troubleshoot ─────────────────────────────────────────────
                 _InfoExpansionTile(
-                  title: 'If any error click on me',
+                  title: 'Having trouble?',
                   icon: Icons.warning_amber_rounded,
                   color: Colors.orange.shade700,
                   children: [
                     const _BulletItem(
                         text: 'Visit the original embassy website and download the file directly.'),
                     const _BulletItem(
-                        text: 'Mostly the error is due to the file not being available on the server. Once the embassy website has the file, this application will work.'),
+                        text: 'Usually the error is because the embassy has not yet uploaded the weekly file. Once uploaded, this app will work again.'),
                     const SizedBox(height: 10),
                     Center(
                       child: OutlinedButton.icon(
@@ -192,8 +238,6 @@ class _InfoExpansionTile extends StatelessWidget {
   }
 }
 
-// ── App icon step ────────────────────────────────────────────────────────────
-
 class _AppIconStep extends StatelessWidget {
   final String iconAsset;
   const _AppIconStep({required this.iconAsset});
@@ -221,8 +265,6 @@ class _AppIconStep extends StatelessWidget {
   }
 }
 
-// ── Bullet point item ────────────────────────────────────────────────────────
-
 class _BulletItem extends StatelessWidget {
   final String text;
   const _BulletItem({required this.text});
@@ -234,15 +276,14 @@ class _BulletItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('• ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          const Text('• ',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
           Expanded(child: Text(text, style: const TextStyle(fontSize: 13))),
         ],
       ),
     );
   }
 }
-
-// ── Hashtag row ──────────────────────────────────────────────────────────────
 
 class _HashtagRow extends StatelessWidget {
   const _HashtagRow();
@@ -261,13 +302,17 @@ class _HashtagRow extends StatelessWidget {
     return Wrap(
       spacing: 6,
       runSpacing: 4,
-      children: tags.map((tag) => Chip(
-        label: Text(tag, style: const TextStyle(fontSize: 11)),
-        backgroundColor: const Color(0xFF169B62).withValues(alpha: 0.1),
-        side: const BorderSide(color: Color(0xFF169B62), width: 0.5),
-        padding: EdgeInsets.zero,
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      )).toList(),
+      children: tags
+          .map((tag) => Chip(
+                label: Text(tag, style: const TextStyle(fontSize: 11)),
+                backgroundColor:
+                    const Color(0xFF169B62).withValues(alpha: 0.1),
+                side: const BorderSide(
+                    color: Color(0xFF169B62), width: 0.5),
+                padding: EdgeInsets.zero,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ))
+          .toList(),
     );
   }
 }

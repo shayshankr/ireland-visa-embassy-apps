@@ -1,10 +1,17 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:workmanager/workmanager.dart';
+import 'background_task.dart';
 import 'config/embassy_config.dart';
 import 'providers/embassy_provider.dart';
 import 'screens/embassy_screen.dart';
+import 'services/notification_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.init();
+  await Workmanager().initialize(callbackDispatcher, isInDebugMode: kDebugMode);
   EmbassyConfig.setConfig(EmbassyConfig.abuja);
   runApp(
     ChangeNotifierProvider(
@@ -23,6 +30,7 @@ class EmbassyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Ireland Visa - ${config.name}',
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: config.primaryColor),
         useMaterial3: true,
@@ -36,4 +44,3 @@ class EmbassyApp extends StatelessWidget {
     );
   }
 }
-
