@@ -151,8 +151,6 @@ class _EmbassyScreenState extends State<EmbassyScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    const _HashtagRow(),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -255,7 +253,7 @@ class _AppIconStep extends StatelessWidget {
           const SizedBox(width: 12),
           const Expanded(
             child: Text(
-              'Find this app on your phone using the icon shown here, then tap it to open.',
+              'This is your app icon — you\'ll find it on your home screen. Tap it any time to check your visa decision, no login needed.',
               style: TextStyle(fontSize: 13),
             ),
           ),
@@ -285,34 +283,3 @@ class _BulletItem extends StatelessWidget {
   }
 }
 
-class _HashtagRow extends StatelessWidget {
-  const _HashtagRow();
-
-  @override
-  Widget build(BuildContext context) {
-    const tags = [
-      '#irelandvisaresult',
-      '#ireland',
-      '#AIforgood',
-      '#studentinireland',
-      '#irelandeducation',
-      '#NCIcollege',
-      '#NCI',
-    ];
-    return Wrap(
-      spacing: 6,
-      runSpacing: 4,
-      children: tags
-          .map((tag) => Chip(
-                label: Text(tag, style: const TextStyle(fontSize: 11)),
-                backgroundColor:
-                    const Color(0xFF169B62).withValues(alpha: 0.1),
-                side: const BorderSide(
-                    color: Color(0xFF169B62), width: 0.5),
-                padding: EdgeInsets.zero,
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ))
-          .toList(),
-    );
-  }
-}
