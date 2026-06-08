@@ -21,7 +21,6 @@ play-credentials.json
 build/
 .dart_tool/
 pubspec.lock
-ios/
 linux/
 macos/
 windows/
