@@ -38,9 +38,9 @@ void main() {
       // Check card heading
       expect(find.text('Check your visa decision'), findsOneWidget);
       // How-to tile
-      expect(find.text('How to use this tool'), findsOneWidget);
-      // Error fallback tile
-      expect(find.text('If any error click on me'), findsOneWidget);
+      expect(find.text('How to use this app'), findsOneWidget);
+      // Troubleshoot tile
+      expect(find.text('Having trouble?'), findsOneWidget);
     });
   }
 
